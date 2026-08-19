@@ -1,0 +1,7 @@
+// Azure Resource Graph: tabla Resources. Inventario de VMs y tamano configurado.
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| project subscriptionId, resourceGroup, location, name,
+    vmSize = tostring(properties.hardwareProfile.vmSize),
+    provisioningState = tostring(properties.provisioningState)
+| order by resourceGroup asc, name asc
