@@ -34,7 +34,7 @@ Para eventos nuevos usa `Get-WinEvent` y limita la consulta con `-FilterHashtabl
 git clone '<repository-url>'
 git pull origin main
 git add .
-git commit -m 'descripcion del cambio'
+git commit -m 'Refactorizado'
 git push origin main
 ```
 
