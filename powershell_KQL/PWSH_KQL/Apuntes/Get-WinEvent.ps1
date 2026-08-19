@@ -1,0 +1,7 @@
+Parámetro           Descripción Operativa                                                                                                                  Ejemplo en FilterHashtable
+-FilterHashtable    -> El motor principal.Filtra los eventos en el servidor antes de enviarlos a PowerShell.Vital para no colapsar la RAM de producción->  FilterHashtable @{...}      
+LogName             ->Indica el registro a consultar. Los más comunes son Application (para UiPath/IIS) y System (para SO/Hardware)                    ->  LogName = 'System'
+Level               ->Filtra por severidad del evento usando códigos numéricos nativos de Windows                                                      ->  Level = 2 (1=Crítico, 2=Error, 3=Advertencia, 4=Información)
+Id                  ->Busca un Event ID específico. Fundamental para aislar problemas conocidos (ej. 1000 para caídas, 4624 para logons)               ->  Id = 1000
+StartTime / EndTime -> Acota la ventana de tiempo. Imprescindible para incidentes que ocurrieron en una franja horaria concreta                        ->  StartTime = (Get-Date).AddHours(-4)
+-MaxEvents          -> Limita la cantidad de resultados devueltos. Útil si solo quieres ver el error más reciente de una ráfaga                        ->  Get-WinEvent ... -MaxEvents 5
