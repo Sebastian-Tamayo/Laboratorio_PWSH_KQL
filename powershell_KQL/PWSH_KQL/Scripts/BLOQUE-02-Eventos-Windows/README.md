@@ -39,7 +39,7 @@ Para equipos remotos se puede proporcionar una credencial administrada por el pr
 ## Como estudiar cada consulta
 
 - `LogName` selecciona `Application` o `System`.
-- `Level` usa valores Windows: 1 critico, 2 error, 3 advertencia y 4 informacion.
+- El parámetro `Level` utiliza valores Windows: 1 crítico, 2 error, 3 advertencia y 4 información.
 - `Id` aisla un evento conocido.
 - `ProviderName` identifica el componente que lo genero.
 - `StartTime` limita la ventana temporal.
@@ -56,4 +56,4 @@ El script filtra en el origen con `-FilterHashtable`, en lugar de traer todos lo
 - Defender Operational, WAS, User Profiles Service o Schannel pueden no existir o no tener eventos en todas las VMs; el resultado devuelve el error del ejercicio sin ocultarlo.
 - No detener servicios ni modificar IIS desde este bloque. Las acciones correctivas requieren ticket, aprobacion y ventana de mantenimiento.
 
-Para informes operativos reutilizables usa `src/powershell/Get-WindowsEventReport.ps1`.
+Los informes operativos reutilizables se generan con `src/powershell/Get-WindowsEventReport.ps1`.

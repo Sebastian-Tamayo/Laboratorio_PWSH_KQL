@@ -6,7 +6,7 @@ Practicar variables, propiedades de objetos, filtros, bucles y manejo básico de
 
 ## Ejecución
 
-`Ejercicios.ps1` contiene ejemplos didácticos. Lee cada sección y ejecuta solo el fragmento que estés estudiando. Los ejercicios que consultan `C:\Windows\Temp`, servicios o eventos requieren una VM de laboratorio y permisos adecuados.
+`Ejercicios.ps1` contiene ejemplos didácticos. Cada sección debe ejecutarse de forma independiente y únicamente en una VM de laboratorio con los permisos adecuados. Los ejercicios que consultan `C:\Windows\Temp`, servicios o eventos no están destinados a ejecución directa en producción.
 
 ## Criterios
 
@@ -15,4 +15,4 @@ Practicar variables, propiedades de objetos, filtros, bucles y manejo básico de
 - Usar `-ErrorAction Stop` cuando el ejercicio trate errores.
 - Simular operaciones destructivas con `-WhatIf`.
 
-Para mantenimiento real usa `src/powershell/Invoke-TempCleanup.ps1`, que ya está parametrizado y protegido con `SupportsShouldProcess`.
+Para mantenimiento real, el repositorio proporciona `src/powershell/Invoke-TempCleanup.ps1`, parametrizado y protegido con `SupportsShouldProcess`.

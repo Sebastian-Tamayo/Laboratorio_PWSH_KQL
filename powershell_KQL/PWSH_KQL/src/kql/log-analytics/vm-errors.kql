@@ -1,6 +1,0 @@
-// Log Analytics: tabla WindowsEvent. Requiere Windows Event Logs enviados al Workspace.
-WindowsEvent
-| where TimeGenerated > ago(24h)
-| where EventLevelName in ('Error', 'Critical')
-| project TimeGenerated, Computer, Channel, ProviderName, EventID, RenderedDescription
-| order by TimeGenerated desc

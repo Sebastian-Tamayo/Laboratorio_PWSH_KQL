@@ -1,6 +1,0 @@
-// Log Analytics: tabla Perf. Usa contadores del agente Azure Monitor; no sustituye la validacion de Orchestrator.
-Perf
-| where TimeGenerated > ago(1h)
-| where ObjectName == 'Processor' and CounterName == '% Processor Time'
-| summarize AvgProcessor = avg(CounterValue), MaxProcessor = max(CounterValue) by Computer, bin(TimeGenerated, 15m)
-| order by TimeGenerated desc
