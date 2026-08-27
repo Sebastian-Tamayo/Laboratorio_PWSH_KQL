@@ -33,9 +33,9 @@ Para eventos nuevos usa `Get-WinEvent` y limita la consulta con `-FilterHashtabl
 ```powershell
 git clone '<repository-url>'
 git pull origin main
+
 git add .
-git commit -m 'Refactorizado.'
+git commit -m 'Añadidos ejercicios '
 git push origin main
 ```
 
-Estos son ejemplos de referencia; ejecuta cambios sobre el repositorio corporativo siguiendo su flujo de revisión.
