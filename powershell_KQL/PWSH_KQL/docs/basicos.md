@@ -35,7 +35,7 @@ git clone '<repository-url>'
 git pull origin main
 
 git add .
-git commit -m 'Añadidos ejercicios '
+git commit -m 'Añadidos ejercicioss '
 git push origin main
 ```
 
