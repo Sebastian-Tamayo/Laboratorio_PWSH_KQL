@@ -32,6 +32,7 @@ Para eventos nuevos usa `Get-WinEvent` y limita la consulta con `-FilterHashtabl
 
 ```powershell
 git clone '<repository-url>'
+
 git pull origin main
 
 git add .
