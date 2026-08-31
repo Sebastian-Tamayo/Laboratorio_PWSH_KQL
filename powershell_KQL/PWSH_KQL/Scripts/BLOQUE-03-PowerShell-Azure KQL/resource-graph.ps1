@@ -27,43 +27,34 @@ $resultados | Format-Table -AutoSize
 
 
 #-----------------------------------------------🪵 Ejercicio 2 de 20 (Bloque 3): Detección de Cuellos de Botella (CPU)--------------------------------
+#Ejercicio 2 de 10: Auditoría de Homogeneidad en VMs (Resource Graph)
+
+#Tu responsabilidad exige asegurar la homogeneidad y el dimensionamiento correcto del hardware
+#para que los robots de UiPath no se queden sin RAM. Necesitas un reporte instantáneo que te muestre qué tamaño de máquina (SKU) y qué sistema operativo tiene cada nodo.
+#La Base Técnica, Tabla objetivo: Resources. Tu Misión, Construir el script de PowerShell que encapsule la consulta KQL para extraer el inventario exacto de estas 14 máquinas.
+
+$queryKQL = @"
+Resources
+| where type =~ 'microsoft.compute/virtualmachines'
+| where name startswith 'VM-'
+| project name, resourceGroup, properties.hardwareProfile.vmSize, properties.storageProfile.osDisk.osType
+"@
+$resultados = Search-AzGraph -Query $queryKQL -First 1000
+
+
+#-----------------------------------------------🪵 Ejercicio 3 de 10: Auditoría de Discos Huérfanos (Optimización de Costes)--------------------------------
 #El Escenario Operativo:
-#Son las 11:30 AM. El Servicio AM te reporta que los procesos de los robots en producción están fallando por Timeouts. Sabes que el motor de UiPath consume mucha máquina cuando procesa automatizaciones pesadas. Necesitas saber si alguna de tus 10 máquinas de producción ha superado el 90% de uso de CPU en la última hora.
+#Asumes el control de los costes de Azure Durante los ciclos de actualización,
+#cuando se destruyen VMs obsoletas de UiPath, a menudo los administradores olvidan eliminar los discos duros subyacentes (Managed Disks).
+#Azure sigue facturando por estos discos inactivos mes tras mes. Necesitas un reporte de este desperdicio.
+#La Base Técnica, Tabla objetivo: Resources. Tu Misión, Arma el bloque de PowerShell con KQL para identificar exclusivamente los discos que están flotando sin uso en el tenant.
 
-#La Base Técnica:
-#Estás en tu consola de Azure Log Analytics. Los datos de rendimiento de las VMs de Windows se ingieren en una tabla llamada Perf.
+$queryKQL = @"
+Resources
+| where type =~ 'microsoft.compute/disks'
+| where properties.diskState == 'Unattached'
+| project name, resourceGroup, properties.diskSizeGB
 
-Perf
-| where ObjectName == "Processor"
-| where CounterName == "% Processor Time"
-# Filtro de tiempo  
-| where TimeGenerated > ago(1h)
-# Filtro de Nodos
-| where Computer startswith "VM-PROD"
-# Filtro de Umbral Crítico
-| where CounterValue > 90
-# Limpieza Visual
-| project TimeGenerated, Computer, CounterValue
+"@
+$resultados = Search-AzGraph -Query $queryKQL -First 1000
 
-
-#-----------------------------------------------🪵Ejercicio 3 de 20: Análisis de Errores Críticos (Event Viewer Centralizado)--------------------------------
-#Varios procesos desatendidos de UiPath en PRO reportan fallos esporádicos al interactuar con un aplicativo interno. Necesitas auditar las excepciones de .NET 
-#y errores de aplicación en los 10 nodos de producción simultáneamente para descartar fallos globales de infraestructura.
-#Tu Misión:
-#Atacar la tabla de eventos unificados y filtrar los registros exactos.
-
-#La Base Técnica:
-
-#Fragmento de código
-
-Event
-#Filtrado de tiempo
-| where TimeGenerated > ago(4h)
-#Filtrado de Nodos
-| where Computer startswith "VM-PROD"
-#Filtrado de registro
-| where EventLog == "Application"
-#Los events IDs
-| where EventID in(1000, 1026)
-#El Mensaje del Error
-| project TimeGenerated, Computer, EventID, RenderedDescription
