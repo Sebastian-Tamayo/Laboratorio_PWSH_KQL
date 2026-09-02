@@ -169,3 +169,40 @@ Resources
 "@
 
 $resultados = Search-AzGraph -Query $queryKQL -first 1000
+
+# ==============================================================================
+#   Ejercicio 9 de 10: Auditoría de Interfaces de Red (VNET/Subnet)
+# ==============================================================================
+#El Escenario Operativo:
+#Para que los procesos desatendidos de UiPath puedan alcanzar el servidor de licencias RDP On-Premise o leer credenciales de Azure Key Vault, 
+#tus 14 máquinas deben estar ancladas a la subred corporativa correcta
+
+#Escribe el script documentado para extraer el inventario de todas las tarjetas de red (NICs) y auditar a qué Subnet específica están conectadas.
+
+$queryKQL = @"
+Resources
+//tipo de recurso exacto, interfaces
+| where type == "microsoft.network/networkinterfaces"
+//extraer el ID de la subred primaria
+| project name, resourceGroup, properties.ipConfigurations[0].properties.subnet.id
+"@
+
+$resultados = Search-AzGraph -Query $queryKQL -first 1000
+
+# ==============================================================================
+#   Ejercicio 10 de 10: Auditoría de Key Vaults (RBAC y Zero-Trust)
+# ==============================================================================
+# Tus robots de UiPath van a extraer credenciales de forma nativa utilizando sus Identidades Administradas,Azure Role-Based Access Control
+
+# Necesitas auditar los Key Vaults de tu tenant para confirmar si están listos.
+
+$queryKQL = @"
+Resources
+//Filtramos a nuestros Key Vaults corporativos
+| where type == "microsoft.keyvault/vaults"
+//Proyectamos los Key Vaults de nuestro tenant para confirmar si están listos
+project name, resourceGroup,properties.enableRbacAuthorization
+
+"@
+
+Search-AzGraph -Query $queryKQL -First 1000
