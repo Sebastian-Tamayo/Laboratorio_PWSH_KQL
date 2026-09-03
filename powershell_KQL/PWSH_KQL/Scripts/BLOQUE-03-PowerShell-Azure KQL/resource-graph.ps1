@@ -181,7 +181,7 @@ $resultados = Search-AzGraph -Query $queryKQL -first 1000
 
 $queryKQL = @"
 Resources
-//tipo de recurso exacto, interfaces
+//Filtramos a nuestras interfaces
 | where type == "microsoft.network/networkinterfaces"
 //extraer el ID de la subred primaria
 | project name, resourceGroup, properties.ipConfigurations[0].properties.subnet.id
@@ -190,19 +190,19 @@ Resources
 $resultados = Search-AzGraph -Query $queryKQL -first 1000
 
 # ==============================================================================
-#   Ejercicio 10 de 10: Auditoría de Key Vaults (RBAC y Zero-Trust)
+#  Ejercicio 10 de 10: Auditoría de Key Vaults (RBAC y Zero-Trust)
 # ==============================================================================
-# Tus robots de UiPath van a extraer credenciales de forma nativa utilizando sus Identidades Administradas,Azure Role-Based Access Control
-
-# Necesitas auditar los Key Vaults de tu tenant para confirmar si están listos.
+# El Escenario Operativo: 
+# Tus robots de UiPath extraerán credenciales mediante Identidades Administradas. 
+# Los Key Vaults deben usar el modelo "Azure Role-Based Access Control" (RBAC). 
+# Necesitas auditar los Key Vaults para confirmar su modelo de autorización.
 
 $queryKQL = @"
 Resources
-//Filtramos a nuestros Key Vaults corporativos
+// Filtramos a nuestros Key Vaults corporativos
 | where type == "microsoft.keyvault/vaults"
-//Proyectamos los Key Vaults de nuestro tenant para confirmar si están listos
-project name, resourceGroup,properties.enableRbacAuthorization
-
+// Proyectamos el booleano RBAC para confirmar si soportan Managed Identities
+| project name, resourceGroup, properties.enableRbacAuthorization
 "@
 
-Search-AzGraph -Query $queryKQL -First 1000
+$resultados = Search-AzGraph -Query $queryKQL -First 1000
